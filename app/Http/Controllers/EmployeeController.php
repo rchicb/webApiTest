@@ -15,6 +15,7 @@ class EmployeeController extends Controller
     public function index()
     {
         //
+        return Employee::all();
     }
 
     /**
@@ -36,7 +37,20 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         //
+        $dataRequest=$request->all();
+            //   dd($request);
+        // return $request;
+        
+        $auxEmployee =new Employee();
+        // $auxEmployee = $request;
+        $auxEmployee->employee_name=$dataRequest['employee_name'];
+        $auxEmployee->employee_salary =$dataRequest['employee_salary'];
+        $auxEmployee->employee_age =$dataRequest['employee_age'];
+        $auxEmployee->save();
+
+        return $auxEmployee;
     }
+
 
     /**
      * Display the specified resource.
@@ -67,9 +81,21 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request,$id)
     {
-        //
+        
+    $dataRequest=$request->all();
+
+    $auxEmployee =Employee::find($id);
+    // $auxEmployee = $request;
+    $auxEmployee->employee_name=$dataRequest['employee_name'];
+    $auxEmployee->employee_salary =$dataRequest['employee_salary'];
+    $auxEmployee->employee_age =$dataRequest['employee_age'];
+    $auxEmployee->update();
+
+    return $auxEmployee;
+
+
     }
 
     /**
@@ -78,8 +104,11 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy($id)
     {
         //
+        $auxEmployee=Employee::find($id);
+        $auxEmployee->delete();
+
     }
 }
